@@ -2,7 +2,7 @@
 This project parallelizes the sieve of eratosthenes in aims of getting speedups on both multicore and GPU systems. 
 
 ## How to run 
-You can then compile the code by running ``make`` to use the provided makefile. 
+You can compile the code by running ``make`` to use the provided makefile. 
 
 ### Multicore OpenMP
 * Set the number of threads using the environment variable ``OMP_NUM_THREADS`` 
