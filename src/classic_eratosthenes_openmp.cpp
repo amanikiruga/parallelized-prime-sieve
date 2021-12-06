@@ -1,4 +1,4 @@
-// C++ program for implementation of Sieve of Atkin
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -6,9 +6,7 @@
 #include <iomanip>
 
 using namespace std;
-// #define uns64 unsigned long long
-// Prints all prime numbers smaller
-
+//counts the total number of primes
 int SieveOfErastothenes(int n)
 
 {
@@ -17,7 +15,7 @@ int SieveOfErastothenes(int n)
     vector<bool> is_prime(n + 1, true);
     is_prime[0] = is_prime[1] = false;
 
-    #pragma omp parallel for schedule(dynamic) shared(is_prime)
+#pragma omp parallel for schedule(dynamic) shared(is_prime)
     for (int i = 2; i <= n; i++)
     {
         if (is_prime[i] && (long long)i * i <= n)
@@ -27,7 +25,7 @@ int SieveOfErastothenes(int n)
         }
     }
     int count = 0;
-    #pragma omp parallel for shared(is_prime) reduction(+:count)
+#pragma omp parallel for shared(is_prime) reduction(+:count)
     for (int i = 0; i < n; i++)
     {
         if (is_prime[i])
@@ -42,7 +40,7 @@ int SieveOfErastothenes(int n)
 int main(int argc, char **argv)
 {
 
-    int n = atoll(argv[1]); // n is the number of primes to be printed
+    int n = atoll(argv[1]); // n is the number of primes to be counted
     int primes = SieveOfErastothenes(n);
     cout << "Number of primes less than " << n << " is " << primes << endl;
     return 0;

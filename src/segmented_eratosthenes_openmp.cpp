@@ -1,4 +1,3 @@
-// C++ program for implementation of Sieve of Atkin
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -8,9 +7,8 @@
 #include <omp.h>
 
 using namespace std;
-// #define uns64 unsigned long long
-// Prints all prime numbers smaller
 
+// represents a single block of size S
 int singleSieveBlock(int k, int S, int n, vector<int> &primes)
 {
     vector<char> block(S);
@@ -48,7 +46,7 @@ int SegmentedSieveOfErastothenes(int n, int S)
     vector<int> primes;
     int nsqrt = sqrt(n);
     vector<char> is_prime(nsqrt + 2, true);
-   // #pragma omp parallel for 
+   //TODO: refactor code below to avoid race conditions 
     for (int i = 2; i <= nsqrt; i++)
     {
         if (is_prime[i])

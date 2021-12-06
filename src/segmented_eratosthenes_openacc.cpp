@@ -8,7 +8,7 @@
 #include "timer.h"
 
 using namespace std;
-//prints all prime numbers less than n
+//counts all prime numbers less than n
 int SegmentedSieveOfErastothenes(int n, int S)
 
 {
@@ -35,21 +35,21 @@ int SegmentedSieveOfErastothenes(int n, int S)
     for (int i = 0; i < primes_size; i++)
         primes_c_array[i] = primes[i];
     char block[S];
-    int result = 0;
+    // int result = 0;
 
-#pragma acc data copyin(primes_c_array, primes_size) create(block)
+    #pragma acc data copyin(primes_c_array, primes_size) create(block)
     {
 
-#pragma acc parallel loop
+        #pragma acc parallel loop
         for (int k = 0; k <= n / S; k++)
         {
 
-#pragma acc loop
+            #pragma acc loop
             for (int i = 0; i < S; i++)
                 block[i] = true;
             int start = k * S;
 
-#pragma acc loop
+            #pragma acc loop
             for (int m = 0; m < primes_size; m++)
             {
                 int p = primes_c_array[m];
@@ -62,6 +62,7 @@ int SegmentedSieveOfErastothenes(int n, int S)
 
             if (k == 0)
                 block[0] = block[1] = false;
+            //TODO: this loop is not parallelizing on GPU so can't get number of primes 
             /* 
             #pragma acc loop reduction(+:result) 
             for (int i = 0; i < S && start + i <= n; i++)
@@ -76,7 +77,7 @@ int SegmentedSieveOfErastothenes(int n, int S)
     double runtime = GetTimer();
 
     cout << "Time taken by program is : " << fixed << runtime / 1000 << setprecision(5) << endl;
-    return result;
+    return 0;
 }
 
 int main(int argc, char **argv)
@@ -84,6 +85,7 @@ int main(int argc, char **argv)
     const int S = 10000;    // 131072;
     int n = atoll(argv[1]); // n is the number of primes to be printed
     int primes = SegmentedSieveOfErastothenes(n, S);
-    cout << "Number of primes less than " << n << " is " << primes << endl;
+    
+    // cout << "Number of primes less than " << n << " is " << primes << endl;
     return 0;
 }
