@@ -5,11 +5,11 @@
 #SBATCH --mail-user=insertemailhere@domain.com 
 #SBATCH --mail-type=ALL 
 #SBATCH -N 1                      # Number of nodes, not cores (16 cores/node) 
-#SBATCH -n 4                  # Number of cores requested in total      
- 
+#SBATCH -n 1                  # Number of cores requested in total      
+
 #SBATCH -t 00:05:00             # set maximum run time of 30 minutes 
 
 #SBATCH --gpus=v100-32:1       #allocation 1 v100 gpu(i.e. = v100-32:5 allocates 5GPUS)”
 
-./primes_acc 100000000
-./primes_acc 1000000000
+./bin/segmented_eratosthenes_openacc 100000000
+./bin/segmented_eratosthenes_openacc 1000000000
